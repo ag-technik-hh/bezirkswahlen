@@ -29,6 +29,7 @@ class Addresse(object):
 	geradeSeite = strassenSeite()
 
 	def setData(self, dataRow):
+		"Parst die Zeile aus der CSV Datei und setzt die Felder der Klasse."
 		seite = self.strassenSeite()
 		seite.wahlkreisnummer = dataRow[5]
 		seite.wahlkreisname = dataRow[6]
@@ -61,7 +62,7 @@ class Addresse(object):
 		elif nummern[1] == '-':
 			self.ungeradeSeite = seite
 			self.geradeSeite = seite
-	
+
 	def __str__(self):
 		return "Gerade: " + self.geradeSeite + ", Ungerade: " + self.ungeradeSeite
 
@@ -79,7 +80,6 @@ def readData(filename = join('data', 'Strassenverzeichnis_HH_insgesamt_BVWahl201
 				adresse = Addresse()
 				wahlkreisDaten[row[0]] = adresse
 			adresse.setData(row)
-	print(wahlkreisDaten)
 			
 def processMembers():
 	"Mitgliederdaten lesen und verarbeiten"
