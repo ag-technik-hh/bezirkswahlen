@@ -9,7 +9,7 @@ from os.path import join
 def enum(**enums):
     return type('Enum', (), enums)
 
-Bezirke = enum(HamburgMitte = 1, Altona = 2, Eimsbuettel = 3, HamburgNord = 4, Wandsbek = 5, Bergedorf = 6, Harburg = 7, UNDEFINED = 0)
+Bezirke = enum(UNDEFINED = 0, HamburgMitte = 1, Altona = 2, Eimsbuettel = 3, HamburgNord = 4, Wandsbek = 5, Bergedorf = 6, Harburg = 7)
 Seite = enum(GERADE = 1, UNGREADE = 2)
 
 class Addresse(object):
