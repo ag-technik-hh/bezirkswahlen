@@ -69,8 +69,8 @@ class Addresse(object):
 	def __str__(self):
 		return "Gerade: " + self.geradeSeite + ", Ungerade: " + self.ungeradeSeite
 
-wahlkreisDaten = {'': Addresse()}
-			
+wahlkreisDaten = dict()
+
 
 def readData(filename = join('data', 'Strassenverzeichnis_HH_insgesamt_BVWahl2014.csv')):
 	"""Datendatei lesen"""
@@ -83,7 +83,7 @@ def readData(filename = join('data', 'Strassenverzeichnis_HH_insgesamt_BVWahl201
 				adresse = Addresse()
 				wahlkreisDaten[row[0]] = adresse
 			adresse.setData(row)
-			
+
 def processMembers(memberInputFile = 'memberInput.csv', memberOutputFile = 'memberOutput.csv', memberErrorFile = 'memberError.csv'):
 	"Mitgliederdaten lesen und verarbeiten"
 	with open(memberInputFile) as memberInput:
