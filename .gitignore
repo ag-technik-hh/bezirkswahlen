@@ -33,3 +33,11 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Dateien mit Mitgliederdaten, unter keinen Umständen in git hochladen
+memberInput.csv
+memberOutput.csv
+memberError.csv
+
+# Backup from patch
+*.orig

@@ -1,8 +1,9 @@
 #! /usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Simples Skript für die Piratenpartei Deutschland Landesverband Hamburg
 Bestimmt den Wahlkreis für die Bezirkswahlen 2014."""
 
-import csv
+from csv import reader, writer
 from re import match
 from os.path import join
 
@@ -19,6 +20,7 @@ class Addresse(object):
 		"""docstring for strassenSeite"""
 
 		bezirk = Bezirke.UNDEFINED
+		stadtteil = ''
 		wahlkreisnummer = -1
 		wahlkreisname = ''
 
@@ -31,6 +33,7 @@ class Addresse(object):
 	def setData(self, dataRow):
 		"Parst die Zeile aus der CSV Datei und setzt die Felder der Klasse."
 		seite = self.strassenSeite()
+		seite.stadtteil = dataRow[2]
 		seite.wahlkreisnummer = dataRow[5]
 		seite.wahlkreisname = dataRow[6]
 		bezirk = int(dataRow[3]) // 100
@@ -72,7 +75,7 @@ wahlkreisDaten = {'': Addresse()}
 def readData(filename = join('data', 'Strassenverzeichnis_HH_insgesamt_BVWahl2014.csv')):
 	"""Datendatei lesen"""
 	with open(filename) as dataFile:
-		dataReader = csv.reader(dataFile, delimiter=';', quotechar='"')
+		dataReader = reader(dataFile, delimiter=';', quotechar='"')
 		for row in dataReader:
 			try:
 				adresse = wahlkreisDaten[row[0]]
@@ -81,9 +84,15 @@ def readData(filename = join('data', 'Strassenverzeichnis_HH_insgesamt_BVWahl201
 				wahlkreisDaten[row[0]] = adresse
 			adresse.setData(row)
 			
-def processMembers():
+def processMembers(memberInputFile = 'memberInput.csv', memberOutputFile = 'memberOutput.csv', memberErrorFile = 'memberError.csv'):
 	"Mitgliederdaten lesen und verarbeiten"
-	pass
+	with open(memberInputFile) as memberInput:
+		with open(memberOutputFile, 'w') as memberOutput:
+			with open(memberErrorFile, 'w') as memberError:
+				memberWriter = writer(memberOutput, delimiter=';', quotechar='"')
+				for adresse, inhalt in wahlkreisDaten:
+					memberWriter.writeRow([adresse, inhalt])
+
 
 def main():
 	readData()
