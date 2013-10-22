@@ -12,6 +12,8 @@ def enum(**enums):
 
 Bezirke = enum(UNDEFINED = 0, HamburgMitte = 1, Altona = 2, Eimsbuettel = 3, HamburgNord = 4, Wandsbek = 5, Bergedorf = 6, Harburg = 7)
 Seite = enum(GERADE = 1, UNGREADE = 2)
+Gliederungsnummer = enum(UNDEFINED = 0, HAMBURG = -363142455, HH_MITTE = -327332526, HH_ALTONA = -354189972, HH_EIMSBUETTEL = -318380044, HH_NORD = -309427562, HH_WANDSBEK = -363142454, HH_BERGEDORF = -336285008, HH_HARBURG = -345237490)
+FeldIndex = enum(comp_user_schwebend = 0, comp_name = 1, comp_name2 =2, comp_emailaddress = 3, addr_address1 = 4, addr_address2 =5, addr_postcode = 6, addr_city = 7, addr_country = 8, comp_user_geburtsdatum = 9, comp_user_staatsbuergerschaft = 10, comp_phonefullnumber = 11, comp_user_mitgliedsnummer = 12, comp_secterr = 13, comp_user_lv = 14, comp_user_bezirk = 15, comp_user_kreis = 16, comp_user_ov = 17, comp_user_eintrittsdatum = 18, comp_user_austrittsdatum = 19, comp_user_stimmberechtigt = 20, comp_user_landkreis = 21, comp_user_kreiskey = 22, comp_user_gemeinde = 23, comp_user_gemeindekey = 24, comp_user_umfragen = 25, comp_user_newsletter = 26, comp_user_aktionen = 27, comp_user_refcodels = 28, comp_user_lvfreitext1 = 29, comp_user_lvfreitext2 = 30, comp_user_lvfreitext3 = 31, comp_user_lvfreitext4 = 32, comp_user_lvfreitext5 = 33, comp_user_lvfreitext6 = 34, comp_user_mailmarkerlv = 35, comp_user_mailmarkerbzv = 36, comp_user_mailmarkerkv = 37, comp_user_mailmarkerg = 38, comp_user_wahlkreisbtw = 39, comp_user_wahlkreisltw = 40, comp_user_redbetrag = 41, comp_user_redbeitragende = 42, comp_user_zoffenerbeitragtotal = 43, comp_user_zstimmberechtigung = 44, comp_user_refcode3 = 45, comp_user_refcode4 = 46, comp_user_refaufnahme = 47, comp_user_ausweisangefordert = 48, comp_user_ausweisexportiert = 49, comp_user_ausweisversendet = 50)
 
 class Addresse(object):
 	"""Datenobjekt für eine Straße aus der Datendatei"""
@@ -121,6 +123,7 @@ def processMembers(memberInputFile = 'memberInput.csv', memberOutputFile = 'memb
 def main():
 	readData()
 	processMembers()
+	s = input("Enter drücken zum Beenden.")
 
 if __name__ == '__main__':
 	main()
