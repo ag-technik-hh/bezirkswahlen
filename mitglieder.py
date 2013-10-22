@@ -76,23 +76,47 @@ def readData(filename = join('data', 'Strassenverzeichnis_HH_insgesamt_BVWahl201
 	"""Datendatei lesen"""
 	with open(filename) as dataFile:
 		dataReader = reader(dataFile, delimiter=';', quotechar='"')
+		print("lese Datei:", filename)
+		count = 0
 		for row in dataReader:
+			count += 1
 			try:
 				adresse = wahlkreisDaten[row[0]]
 			except KeyError:
 				adresse = Addresse()
 				wahlkreisDaten[row[0]] = adresse
 			adresse.setData(row)
+		print(count, "Datensätze gelsen")
 
 def processMembers(memberInputFile = 'memberInput.csv', memberOutputFile = 'memberOutput.csv', memberErrorFile = 'memberError.csv'):
-	"Mitgliederdaten lesen und verarbeiten"
-	with open(memberInputFile) as memberInput:
-		with open(memberOutputFile, 'w') as memberOutput:
-			with open(memberErrorFile, 'w') as memberError:
-				memberWriter = writer(memberOutput, delimiter=';', quotechar='"')
-				for adresse, inhalt in wahlkreisDaten:
-					memberWriter.writeRow([adresse, inhalt])
+	"""Mitgliederdaten lesen und verarbeiten"""
+	memberInput = open(memberInputFile)
+	memberReader = reader(memberInput, delimiter=';', quotechar='"')
+	memberOutput = open(memberOutputFile, 'w')
+	memberWriter = writer(memberOutput, delimiter=';', quotechar='"')
+	memberError = open(memberErrorFile, 'w')
+	memberErrorWriter = writer(memberError, delimiter=';', quotechar='"')
+	print("verarbeite Mitglieder aus:", memberInputFile)
+	count = 0
+	for row in memberReader:
+		count += 1
+		adresse = row[FeldIndex.addr_address1]
+		m = match('^(\D+) (\d+)(\D?)$', adresse)
+		try:
+			wahlkreisEintrag = wahlkreisDaten[m.group(1)]
 
+			if int(m.group(2)) % 2 == 0:
+				seite = wahlkreisEintrag.geradeSeite
+			else:
+				seite = wahlkreisEintrag.ungeradeSeite
+
+			row[FeldIndex.comp_user_gemeinde] = seite.stadtteil
+			row[FeldIndex.comp_user_lvfreitext1] = seite.wahlkreisname + ' (' + seite.wahlkreisnummer + ')'
+
+			memberWriter.writerow(row)
+		except KeyError:
+			memberErrorWriter.writerow(row)
+	print(count, "Mitglieder verarbeitet")
 
 def main():
 	readData()
